@@ -1,0 +1,46 @@
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}[
+      alt={A graph consisting of a path from x_0 to x_k that splits into two parallel branches (of lengths l_1 and l_2), which later rejoin at z_0 and continue to z_m.},
+    roundnode/.style={circle, fill=black, inner sep=0pt, minimum size=1.75mm}]
+    \node[roundnode, label=90:{$x_0$}] (x0) at (0,0) {};
+    \node[roundnode, label=90:{$x_1$}] (x1) at (1,0) {};
+    \node[roundnode, label=90:{$x_2$}] (x2) at (2,0) {};
+    \node (p1) at (2.5,0) {\ldots};
+    \node[roundnode, label=90:{$x_k$}] (xk) at (3,0) {};
+
+    \node[roundnode, label=90:{$y_1^{(1)}$}] (y11) at (4,1) {};
+    \node[roundnode, label=90:{$y_2^{(1)}$}] (y21) at (5,1) {};
+    \node (p2) at (5.5,1) {\ldots};
+    \node[roundnode, label=90:{$y_{l_1-1}^{(1)}$}] (yl'1) at (6,1) {};
+
+    \node[roundnode, label=270:{$y_1^{(2)}$}] (y12) at (4,-1) {};
+    \node[roundnode, label=270:{$y_2^{(2)}$}] (y22) at (5,-1) {};
+    \node (p3) at (5.5,-1) {\ldots};
+    \node[roundnode, label=270:{$y_{l_2-1}^{(2)}$}] (yl'2) at (6,-1) {};
+
+    \node[roundnode, label=90:{$z_0$}] (z0) at (7,0) {};
+    \node[roundnode, label=90:{$z_1$}] (z1) at (8,0) {};
+    \node[roundnode, label=90:{$z_2$}] (z2) at (9,0) {};
+    \node (p4) at (9.5,0) {\ldots};
+    \node[roundnode, label=90:{$z_m$}] (zm) at (10,0) {};
+
+    \node (s) at (0,-.4) {$s(L)$};
+    \node (t) at (10,-.4) {$t(L)$};
+
+    %Lines
+    \draw[-] (x0) -- (x1);
+    \draw[-] (x1) -- (x2);
+    \draw[-] (xk) -- (y11);
+    \draw[-] (xk) -- (y12);
+    \draw[-] (y11) -- (y21);
+    \draw[-] (y12) -- (y22);
+    \draw[-] (yl'1) -- (z0);
+    \draw[-] (yl'2) -- (z0);
+    \draw[-] (z0) -- (z1);
+    \draw[-] (z1) -- (z2);
+
+  \end{tikzpicture}
+  \caption[A $(k,l_1,l_2,m)$-Laakso graph]{A $(k,l_1,l_2,m)$-Laakso graph.}
+  \label{fig:complicated}
+\end{figure}

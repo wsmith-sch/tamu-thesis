@@ -1,0 +1,57 @@
+\chapter{Making Figures or Images Accessible} \label{ch:graphics}
+
+\section{Accessible Figures and the Role of Alt-Text}
+To ensure that figures and images are accessible to users who rely on screen readers and other assistive technologies, all non-decorative visual content must be accompanied by \textit{meaningful} alternative text (alt-text).
+Alt-text provides a textual representation of visual information and enables users who cannot perceive images visually to understand their purpose and content.
+
+Alt-text should concisely describe the essential information conveyed by the figure, focusing on what a user needs to know rather than how the image looks.
+The description should be written in complete sentences or clear phrases and should avoid redundant wording such as ``an image of'' or ``a figure showing,'' as screen readers already announce the presence of an image.
+For informative figures (\textit{e.g.}, diagrams, plots, flowcharts, screenshots, or visual comparisons), the alt-text should summarize the key message or insight conveyed by the figure.
+When a figure contains text, labels, or numerical values that are critical for understanding, these should be included or summarized in the alt-text.
+If the figure is complex and cannot be adequately described in a short alt-text, an abridged version should be provided along with a more detailed explanation in the surrounding text or caption.
+
+\section{Providing Alt-Text for Simple Figures}
+
+Documentation on how to generate alt-text for graphics in \LaTeX\ can be found in the \href{https://texdoc.org/serve/latex-lab-graphic/0}{latex-lab-graphic package manual}; however, we will demonstrate some basic examples in this template.
+To include an image and embed with it alternative text, we may use the \verb|\includegraphics{}| command and leverage the \verb|\alt={}| attribute.
+This is demonstrated in \autoref{fig:alt-text}, which depicts the code used to generate the image itself, visually identifying where the alt-text should be placed.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics [
+    width=0.8\linewidth,
+    alt={
+      Diagram illustrating where alt-text is specified in a \LaTeX\ figure.
+      An arrow highlights the alt attribute within the \backslash includegraphics command.
+    }
+  ]{figs/alt-text-instructions.png}
+  \caption{Example \LaTeX\ figure code with the alt-text field highlighted}
+  \label{fig:alt-text}
+\end{figure}
+
+\newpage
+
+As of April 2026, packages for \textit{generating} graphics such as \texttt{tikz} and \texttt{pgfplots} are only partially compatible and should be used with caution.
+In general, simple graphics generated using \texttt{tikz} can be used if you provide alt-text as in example \autoref{fig:parabola}.
+\vspace{3em}
+
+\begin{figure}[h]
+  \centering
+  \begin{tikzpicture}[
+      alt={A graph of a parabola opening upwards, centered at the origin (0,0)}
+    ]
+
+    \draw[->] (-2.5,0) -- (2.5,0) node[below] {$x$};
+    \draw[->] (0,-0.5) -- (0,4.5) node[left] {$y$};
+
+    \draw[thick, blue] (-2,4) parabola bend (0,0) (2,4);
+
+  \end{tikzpicture}
+  \caption{A figure generated using \texttt{tikz}}
+  \label{fig:parabola}
+\end{figure}
+
+A considerably more complicated example can be found in \autoref{fig:complicated}--- this example also shows how intricate figures can be \texttt{\backslash input} from a separate file, just like tables.
+Refer to the documentation linked previously if you wish to generate things other than simple figures (\textit{e.g.}, decorations, special characters) using \texttt{tikz}, as these might require further care to tag properly or need to be marked as an artifact.
+
+\input{figs/complicated}

@@ -1,0 +1,31 @@
+\chapter{Constructing References and Leaving Footnotes}\label{ch:make-bib}
+Your References section is automatically generated using \texttt{biblatex}.
+New \texttt{bibtex} entries can be added to the file \texttt{ref.bib} and are only included in the final References if they are actually \texttt{cite}d in your document using the \texttt{\backslash cite} command.
+For example:
+``We follow \cite{evans_pde}\ldots''.
+The specific formatting of the References depends on your discipline; for this reason, these options can be changed inside your \texttt{preamble.tex} file.
+Here, we are using \textcite{lax_hyperbolic} as an example narrative citation.
+As an example parenthetical citation, here is a reference on the interplay of parasite mating systems and complex life cycle evolution \parencite{hulke_criscione}.
+The References section should double spaced between references; it is optional if you want to single space a reference that goes over one line.
+Anywhere in the document, you may leave footnotes using the \texttt{\backslash footnote} command.
+\footnote{%
+  Using Adobe Acrobat and NVDA screen reader, this example footnote is accessible via this viewer and reader.%
+}
+This command can be used for citations \footnote{%
+  \Autocite{lax_hyperbolic}.%
+}
+which will be formatted according to your \texttt{biblatex} settings.
+
+\section{Bibliography Styles}
+In \texttt{preamble.tex}, we set up the bibliography using:
+\begin{verbatim}
+      \usepackage[... style=authoryear ... ]{biblatex};
+\end{verbatim}
+however, this style is not mandatory and should be changed as appropriate for your discipline.
+The \texttt{biblatex} package supports a wide range of standard styles, including numeric, alphabetic, APA, MLA, IEEE, Nature, \textit{etc}.
+All of these options are detailed in \texttt{biblatex}'s
+\href{https://ctan.org/pkg/biblatex?lang=en}{documentation on CTAN} and more concisely in
+\href{https://tug.ctan.org/info/biblatex-cheatsheet/biblatex-cheatsheet.pdf}{this \texttt{biblatex} cheat-sheet}.
+Of particular importance are the \texttt{style} and \texttt{citestyle} options, where the latter is used to style in-text citations in particular.
+One may also use the \href{https://ctan.org/pkg/amsrefs}{\texttt{amsrefs}} package to format their references in conjunction to \texttt{biblatex} or as a replacement.
+The \texttt{cleveref} package is only \href{https://latex3.github.io/tagging-project/tagging-status/}{partially-compatible} with tagging and should be used with caution at this time.

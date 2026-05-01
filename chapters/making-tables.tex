@@ -1,0 +1,58 @@
+\chapter{Making Accessible Tables}
+\section{Simple Examples}
+%Here is a very basic table.
+A very basic table is given in Table~\ref{table:simple}.
+The key points about making tables accessible are the following: we must have a header row and we need to specify where it is located (\textit{c.f.} the source for \autoref{table:simple}).
+Moreover, to make the table easily navigable on screen readers, we require every table to be \textit{regular} in the sense that each row has the same number of columns and \textit{vice-versa}.
+Finally, we require that every cell be nonempty.
+As far as general formatting is concerned, a table's caption must be located \textit{above} its contents (in contrast with a figure) and, as with figures and equations, all tables should be referenced in the text.
+
+\begin{table}[h]
+  \begin{center}
+    \caption{A simple table}
+    \label{table:simple}
+    \tagpdfsetup{table/header-rows={1}}
+    \begin{tabular}{rccc} \toprule
+      \# cells & h & $L^2$ error & rate \\ \midrule
+      $12$ & $8.250\times10^{-2}$ & $2.945\times10^{-3}$ & -- \\
+      $25$ & $3.960\times10^{-2}$ & $7.878\times10^{-4}$ & $1.80$ \\
+      $50$ & $1.980\times10^{-2}$ & $2.128\times10^{-4}$ & $1.89$ \\
+      $100$ & $9.900\times10^{-3}$ & $5.507\times10^{-5}$ & $1.95$ \\
+      $200$ & $4.950\times10^{-3}$ & $1.395\times10^{-5}$ & $1.98$ \\
+      $400$ & $2.475\times10^{-3}$ & $3.522\times10^{-6}$ & $1.99$ \\
+      $800$ & $1.238\times10^{-3}$ & $9.041\times10^{-7}$ & $1.96$ \\
+      $1600$ & $6.188\times10^{-4}$ & $2.489\times10^{-7}$ & $1.86$ \\
+      \bottomrule
+    \end{tabular}
+  \end{center}
+\end{table}
+
+Observe in the source (\texttt{chapters/making-tables.tex}) that \autoref{table:input} is \texttt{input} from a file in the \texttt{tables} directory.
+This is helpful strategy for organizing and maintaining large projects such as your thesis.
+The documentation for making tables in a tagged PDF can be found in the \href{https://texdoc.org/serve/latex-lab-table/0}{latex-lab-table package manual}.
+
+\input{tables/table}
+
+\newpage
+
+\section{Using Table Environments Without Tagging}
+
+Here, we use a \texttt{tabular} environment just to align some content.
+This might occur if you want to align figures side-by-side or in a grid, as demonstrated in \autoref{fig:side-by-side} for example.
+In this case, we need to tell \LaTeX\ not to tag this as a table, since it really does not \textit{function} as a table (it is merely decorative).
+We do so with an option in the place where you would otherwise need to specify the header location.
+As an aside, this example also shows how to leave an abridged caption inside the Table of Contents.
+\vspace{3em}
+
+\begin{figure}[ht]
+  \centering
+  \tagpdfsetup{table/tagging=false}
+  \setlength{\tabcolsep}{40pt}
+  \begin{tabular}{cc}
+    \includegraphics[height=5cm,alt={Sparsity pattern from a discontinuous Galerkin method, demonstrating a lower block-triangular structure.}]{figs/example-a.pdf}
+    &
+    \includegraphics[height=5cm,alt={Sparsity pattern from the SUPG method, demonstrating a sparse, banded structure.}]{figs/example-b.pdf}
+  \end{tabular}
+  \caption[Comparison of dG/SUPG sparsity patterns]{Comparison of dG/SUPG sparsity patterns. Sparsity patterns for the dG method with upwind flux (left) and the SUPG method (right).}
+  \label{fig:side-by-side}
+\end{figure}
