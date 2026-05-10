@@ -1,0 +1,58 @@
+\DocumentMetadata{
+  uncompress,
+  lang=en,
+  tagging=on,
+  %check-tagging-status,  %<- uncheck to see if your packages are compatible
+  pdfstandard=UA-2,
+  pdfstandard=A-4f,
+  tagging-setup={math/setup={mathml-SE,mathml-AF},
+  extra-modules={verbatim-mo, verbatim-af}}
+}
+
+\documentclass{tamuthesis}
+
+% This command is used to set up the customizable formatting options
+% A full list of options can be found in Sec 1.4
+\setupformat{
+  centersections=true,
+  depth = 2,
+  urlcolor=blue,
+}
+% Note that you can use xcolor to set the color options to anything you like
+
+
+% Here you can set you font: use whatever is appropriate for your discipline
+\usepackage{fontspec}
+\setmainfont{EB Garamond}
+% some other nice examples:
+%\setmainfont{CMU Serif}
+%\setmainfont{Palatino}
+%\setmainfont{Times New Roman}
+%\setmainfont{Cormorant Garamond}
+
+% you can specify a math font too:
+\setmathfont{Garamond Math}[StylisticSet={2,5,9,10}]
+% another good one:
+%\setmathfont{Asana Math}
+% omitting \setmathfont{} defaults to a Compt. Modern font, which looks good too
+
+% load the packages you want to use here:
+\usepackage{graphicx}
+\usepackage{siunitx}
+\usepackage{tikz}
+\usepackage{booktabs}
+\usepackage{algpseudocode}
+
+% This is for formatting the bibliography; see Ch. 5
+% Customize the style as is appropriate for your discipline.
+\usepackage[backend=biber,
+  style=authoryear,
+  giveninits=true,
+  uniquename=init
+]{biblatex}
+
+% either modify this file or add your own resources:
+\addbibresource{backmatter/refs.bib}
+
+% depending on your font & bibtex style, this may be useful:
+\DeclareFieldFormat{labelalpha}{\liningnums{#1}}

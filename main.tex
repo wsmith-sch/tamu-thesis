@@ -1,0 +1,35 @@
+% !TeX program = lualatex
+
+\input{preamble}
+
+\begin{document}
+
+\input{preface/title-page}
+
+\startpreface
+
+\include{preface/abstract}
+\include{preface/dedication}
+\include{preface/acknowledgements}
+\include{preface/contributors}
+\include{preface/nomenclature}
+
+\makecontents
+
+\startmain
+
+\include{chapters/usage}
+\include{chapters/equations}
+\include{chapters/tagging-images}
+\include{chapters/making-tables}
+\include{chapters/making-bib}
+\include{chapters/headings}
+
+\buildbibliography{References}
+
+\begin{appendices}
+  \include{backmatter/troubleshoot}
+  \include{backmatter/compile}
+\end{appendices}
+
+\end{document}
