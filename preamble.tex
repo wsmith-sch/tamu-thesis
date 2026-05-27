@@ -56,3 +56,9 @@
 
 % depending on your font & bibtex style, this may be useful:
 \DeclareFieldFormat{labelalpha}{\liningnums{#1}}
+
+% brings List of Tables and Figures to the left 1 in margin
+\makeatletter
+\renewcommand*\l@figure{\@dottedtocline{1}{0em}{2.3em}}
+\renewcommand*\l@table{\@dottedtocline{1}{0em}{2.3em}}
+\makeatother

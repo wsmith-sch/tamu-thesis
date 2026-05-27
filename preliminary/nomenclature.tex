@@ -1,10 +1,12 @@
 \chapter*{Nomenclature}
 \addcontentsline{toc}{chapter}{Nomenclature}
-
+\vspace*{-1.em}
 {
   \renewcommand{\arraystretch}{1.5}
   \tagpdfsetup{table/tagging=false}
-  \begin{longtable}[htbp]{@{}p{0.3\textwidth} p{0.6\textwidth}@{}}
+  \setlength{\LTleft}{0pt}       % <--- align table to left margin
+  \setlength{\LTright}{\fill}     % <--- let extra space go to the right
+  \begin{longtable}[htbp]{@{}p{0.15\textwidth} p{0.6\textwidth}@{}}
     % notation      & description
     $BV$            & Space of functions of bounded variation \\
     $L^\infty$      & Space of essentially bounded measurable functions \\
