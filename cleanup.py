@@ -20,21 +20,21 @@ TO_DELETE = [
 ]
 
 # we'll just dump this into main.tex at the end
-SKINNY_MAIN = r"""% !TeX program = lualatex
+NEW_MAIN = r"""% !TeX program = lualatex
 
 \input{preamble}
 
 \begin{document}
 
-\input{preface/title-page}
+\input{preliminary/title-page}
 
-\startpreface
+\startpreliminary
 
-\include{preface/abstract}
-\include{preface/dedication}
-\include{preface/acknowledgements}
-\include{preface/contributors}
-\include{preface/nomenclature}
+\include{preliminary/abstract}
+\include{preliminary/dedication}
+\include{preliminary/acknowledgements}
+\include{preliminary/contributors}
+\include{preliminary/nomenclature}
 
 \makecontents
 
@@ -66,17 +66,17 @@ def strip_template():
         print(f"Cleared: {aux}")
 
     # this deletes all main* files including main.tex
-    # we add back a 'skinny' version later
+    # we add back a minimal version later
     for junk in glob.glob("./main*"):
         try:
             os.remove(junk)
-            print(f"Cleared LaTeX junk: {junk}")
+            print(f"Deleted junk: {junk}")
         except OSError:
             pass
 
     with open("main.tex", "w") as f:
-        f.write(SKINNY_MAIN)
-    print("Replaced main.tex with the skinny version.")
+        f.write(NEW_MAIN)
+    print("Replaced main.tex with minimal version.")
 
     print("\nCleanup complete. Enjoy the template.")
     print("Deleting myself too... bye!")

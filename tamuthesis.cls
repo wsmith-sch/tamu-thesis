@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}[2025-11-01]
-\ProvidesClass{tamuthesis}
+\ProvidesClass{tamuthesis}[2026/06/04 TAMU thesis v1.0]
 
 \LoadClass[12pt]{report}
 
@@ -79,7 +79,7 @@
 \RequirePackage{microtype}[kerning=true, tracking=true] % good kerning etc
 
 % style for pages after the title, before main content
-\newcommand{\startpreface}{
+\newcommand{\startpreliminary}{
   \pagestyle{plain}
   \pagenumbering{roman}
   \setcounter{page}{2}
@@ -194,26 +194,26 @@
 \AddToHook{begindocument/end}
 {\addtocontents{toc}
   {\unexpanded{\SuspendTagging{}
-      \vspace*{-3em}
+      \vspace*{-1.5em}
       \hfill
       \vspace*{-0.5em}
-\makebox[\UseName{@pnumwidth}][c]{Page}\par\smallskip\ResumeTagging{}}}}
+\makebox[\UseName{@pnumwidth}][c]{Page}\par\bigskip\ResumeTagging{}}}}
 
 \AddToHook{begindocument/end}
 {\addtocontents{lof}
   {\unexpanded{\SuspendTagging{}
-      \vspace*{-3em}
+      \vspace*{-1.5em}
       \hfill
       \vspace*{0.5em}
-\makebox[\UseName{@pnumwidth}][c]{Page}\par\smallskip\ResumeTagging{}}}}
+\makebox[\UseName{@pnumwidth}][c]{Page}\par\bigskip\ResumeTagging{}}}}
 
 \AddToHook{begindocument/end}
 {\addtocontents{lot}
   {\unexpanded{\SuspendTagging{}
-      \vspace*{-3em}
+      \vspace*{-1.5em}
       \hfill
       \vspace*{0.5em}
-\makebox[\UseName{@pnumwidth}][c]{Page}\par\smallskip\ResumeTagging{}}}}
+\makebox[\UseName{@pnumwidth}][c]{Page}\par\bigskip\ResumeTagging{}}}}
 
 \ExpandArgs{c}\def{@dotsep}{2}
 \AddToHookWithArguments{contentsline/text/after}{%
@@ -336,7 +336,8 @@
 
     \begin{singlespace}
       \tagpdfsetup{table/tagging=false}
-      \begin{tabular}{ll}
+      \noindent
+      \begin{tabular}{@{}ll}
         Chair of Committee, & \chairone\, \\
 
         % print contents iff the field is nonempty
@@ -476,3 +477,7 @@
     \AddToHook{fntext/end}[biblatexhack]{\togglefalse{blx@footnote}}%
   }
 }
+
+% brings List of Tables and Figures to the left 1 in margin
+\renewcommand*\l@figure{\@dottedtocline{1}{0em}{2.3em}}
+\renewcommand*\l@table{\@dottedtocline{1}{0em}{2.3em}}
