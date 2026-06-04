@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}[2025-11-01]
-\ProvidesClass{tamuthesis}
+\ProvidesClass{tamuthesis}[2026/06/04 TAMU thesis v1.0]
 
 \LoadClass[12pt]{report}
 
@@ -477,3 +477,7 @@
     \AddToHook{fntext/end}[biblatexhack]{\togglefalse{blx@footnote}}%
   }
 }
+
+% brings List of Tables and Figures to the left 1 in margin
+\renewcommand*\l@figure{\@dottedtocline{1}{0em}{2.3em}}
+\renewcommand*\l@table{\@dottedtocline{1}{0em}{2.3em}}

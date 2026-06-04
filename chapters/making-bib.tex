@@ -1,6 +1,15 @@
-\chapter[Constructing References, Leaving Footnotes, and Copyright]{Constructing References, Leaving Footnotes, and Copyright\footnote{\NoCaseChange{%
-\noindent\hangindent=1.5em\hangafter=1 Chapter 5 was previously published and is reproduced with permission from \textcite{author_year}. [Note: This is an example of permission to reproduce material from a book or journal article, with the full reference corresponding to the narrative citation (Author, [Year]) given in the References.]%
-}}}\label{ch:make-bib}
+\chapter[Constructing References, Leaving Footnotes, and Copyright]%
+{%
+  \label{ch:make-bib}%
+  Constructing References, Leaving Footnotes, and Copyright
+  \footnote{
+    % if you leave a footnote in a chapter title, it will pick up the titles formatting by default
+    \NoCaseChange{%
+      \noindent\hangindent=1.5em\hangafter=1%
+      Chapter 5 was previously published and is reproduced with permission from \textcite{author_year}. [Note: This is an example of permission to reproduce material from a book or journal article, with the full reference corresponding to the narrative citation (Author, [Year]) given in the References.]%
+    }
+  }
+}
 Your References section is automatically generated using \texttt{biblatex}.
 New \texttt{bibtex} entries can be added to the file \texttt{ref.bib} and are only included in the final References if they are actually \texttt{cite}d in your document using the \texttt{\backslash cite} command.
 For example:
@@ -26,7 +35,7 @@ In \texttt{preamble.tex}, we set up the bibliography using:
 however, this style is not mandatory and should be changed as appropriate for your discipline.
 The \texttt{biblatex} package supports a wide range of standard styles, including numeric, alphabetic, APA, MLA, IEEE, Nature, \textit{etc}.
 All of these options are detailed in \texttt{biblatex}'s
-\href{https://ctan.org/pkg/biblatex?lang=en}{documentation on CTAN} and more concisely in this 
+\href{https://ctan.org/pkg/biblatex?lang=en}{documentation on CTAN} and more concisely in this
 \href{https://tug.ctan.org/info/biblatex-cheatsheet/biblatex-cheatsheet.pdf}{\texttt{biblatex} cheat-sheet}.
 Of particular importance are the \texttt{style} and \texttt{citestyle} options, where the latter is used to style in-text citations in particular.
 One may also use the \href{https://ctan.org/pkg/amsrefs}{\texttt{amsrefs}} package to format their references in conjunction to \texttt{biblatex} or as a replacement.
