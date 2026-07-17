@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}[2025-11-01]
-\ProvidesClass{tamuthesis}[2026/06/04 TAMU thesis v1.0]
+\ProvidesClass{tamuthesis}[2026/07/17 TAMU thesis v1.1]
 
 \LoadClass[12pt]{report}
 
@@ -63,6 +63,13 @@
 % Because of this, any code using these options will have to be wrapped in an AddToHook so it is loaded in the right order
 \newcommand{\setupformat}[1]{\SetKeys[tamuthesis]{#1}}
 
+% debugging: print latex lab info to log
+% (absent on older texlive, hence the guard)
+\typeout{latex lab version : \ltlabsecdate\space v\ltlabsecversion}
+\@ifundefined{ltlabsecIIversion}
+{\typeout{latex lab sec-template : not present}}
+{\typeout{latex lab sec-template : \ltlabsecIIdate\space v\ltlabsecIIversion}}
+
 % Required for accessibility
 \RequirePackage{unicode-math}
 
@@ -76,7 +83,7 @@
 \RequirePackage[titletoc]{appendix} % used to make appendices look right in the ToC
 
 % not required but nice
-\RequirePackage{microtype}[kerning=true, tracking=true] % good kerning etc
+\RequirePackage{microtype} % good kerning etc
 
 % style for pages after the title, before main content
 \newcommand{\startpreliminary}{
@@ -120,29 +127,68 @@
 
 % Format titles for subheadings:
 
-% start with chapters
-\renewcommand{\@makechapterhead}[1]{
-  \vspace*{0pt} % space before title
-  {\parindent \z@
-    \if@tamuthesis@boldheadings\bfseries\fi\centering\normalsize
-    \ifnum \c@secnumdepth >\m@ne
-    \MakeUppercase{\thechapter.} \hspace{1em}%
-    \fi
-    \interlinepenalty\@M
-    \MakeUppercase{#1}\par\nobreak
-    \vskip 20pt % space after title
+% Newer latex-lab formats chapters through a tagged "heading" template instead of
+% \@makechapterhead, which is much more convenient
+%
+% Its keys change between releases, so we only restyle for sec-template versions
+% we have checked; add a line here after verifying a new one
+%
+% If the user has an older download of texlive, we will provide the old code as a fallback
+\@namedef{tamuthesis@secII@0.9g}{}
+\IfInstanceExistsTF{heading}{chapter}
+{% new latex-lab
+  \@ifundefined{tamuthesis@secII@\ltlabsecIIversion}
+  {% unverified version: warn and keep latex-lab's default, rather than risk errors
+    \ClassWarning{tamuthesis}{%
+      Chapter formatting unverified for latex-lab sec-template
+    \ltlabsecIIversion; using default style. Update tamuthesis.cls}%
+  }
+  {% "hang" keeps the number and title on one centered line
+    % after-*-vspace pull the title to the top of the page
+    % prefix (\@chapapp) is cleared for a bare "1."
+    \DeclareInstance{headformat}{tamuchapter}{hang}{
+      , heading-indent   = 0pt
+      , number-title-sep = 1em
+      , title-format     = \MakeUppercase{#1}
+    }
+    \EditInstance{heading}{chapter}{
+      , placement            = top
+      , after-penalty-vspace = 0pt
+      , after-vspace         = 20pt
+      , prefix               = \NoValue
+      , heading-decls        = \centering \normalfont \normalsize
+      \if@tamuthesis@boldheadings \bfseries \fi
+      , number-decls         = \normalsize
+      , title-decls          = \normalsize
+      , headformat-instance  = tamuchapter
+      , number-format        = \MakeUppercase{\thechapter.}
+    }
   }
 }
-
-% ditto for "starred" (schapter)
-% what a horrible convention
-\renewcommand{\@makeschapterhead}[1]{
-  \vspace*{0pt}
-  {\parindent \z@
-    \if@tamuthesis@boldheadings\bfseries\fi\centering\normalsize
-    \interlinepenalty\@M
-    \MakeUppercase{#1}\par\nobreak
-    \vskip 20pt
+{% old code
+  %
+  % TODO: at some point (stable release), we can just deprecate this branch
+  \renewcommand{\@makechapterhead}[1]{
+    \vspace*{0pt} % space before title
+    {\parindent \z@
+      \if@tamuthesis@boldheadings\bfseries\fi\centering\normalsize
+      \ifnum \c@secnumdepth >\m@ne
+      \MakeUppercase{\thechapter.} \hspace{1em}%
+      \fi
+      \interlinepenalty\@M
+      \MakeUppercase{#1}\par\nobreak
+      \vskip 20pt % space after title
+    }
+  }
+  % ditto for "starred" (schapter); what a horrible convention
+  \renewcommand{\@makeschapterhead}[1]{
+    \vspace*{0pt}
+    {\parindent \z@
+      \if@tamuthesis@boldheadings\bfseries\fi\centering\normalsize
+      \interlinepenalty\@M
+      \MakeUppercase{#1}\par\nobreak
+      \vskip 20pt
+    }
   }
 }
 
@@ -304,7 +350,7 @@
   \begin{titlepage}
     \begin{center}
       \begin{doublespace}
-        { \ifdefined\BoldHeadings\bfseries\fi
+        { \if@tamuthesis@boldheadings\bfseries\fi
           \MakeUppercase{  \manuscripttitle}
         }
       \end{doublespace}
