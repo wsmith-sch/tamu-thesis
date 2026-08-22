@@ -23,6 +23,10 @@ If you intend to compile the document on your own device, note that you must use
 `lualatex`. This template has been tested using `LuaHBTeX, Version 1.24.0`,
 which is included in the March 1 release of
 [TeX Live 2026](https://tug.org/texlive/).
+If you do not already have a recent TeX Live installation, you are *strongly*
+recommended to install one using the install script provided by the TeX Users
+Group (TUG); see their
+[quick install guide](https://www.tug.org/texlive/quickinstall.html).
 You may also need to install `biber`, which is used by default as the
 bibliography backend instead of `BibTeX` (though this can certainly be changed
 at your discretion).
@@ -31,11 +35,13 @@ preamble, you must ensure they are installed on your system.
 
 ### Using the Makefile
 A `Makefile` is provided to automate the compilation process.
+Note that you will need `make` installed on your system to use it.
 You may find the following commands useful:
 
 *   **`make`**: Compiles the document using `latexmk` and `lualatex`.
 *   **`make todo`**: Lists all "TODO" notes found in `.tex` files.
 *   **`make clean`**: Removes all auxiliary files and the generated PDF.
+*   **`make strip-template`**: Strips the template of all example content (vide infra).
 
 If you wish to change the name of the `main` file, you will need to modify the
 first line of the `Makefile` appropriately.
@@ -47,22 +53,25 @@ lualatex main.tex
 ```
 however, it may require multiple passes to correctly number everything.
 
-## Using the cleanup script
+## Stripping the template
 Once you have reviewed the contents in this template and are ready to begin your
-own thesis, you can use the included `cleanup.py` script to clear all of the
-examples and strip the template to a minimal working state. This script will
-also remove this `README` itself--- rename this file to something else if you
-want to keep these instructions.
+own thesis, you can run `make strip-template` to clear all of the examples and
+strip the template to a minimal working state. This command will also remove
+this `README` itself — rename this file to something else if you want to keep
+these instructions.
 
-Run the script from your terminal (assuming you have python):
+Run it from your terminal:
 ```bash
-python3 cleanup.py
+make strip-template
 ```
 
 > [!WARNING]
 > This action is semi-permanent and destructive.
-> Running this script will delete all example chapters, all LaTeX auxiliary
-> files, this README.md file, and the `cleanup.py` script itself. Ensure you
-> have read the documentation and examples provided in the template before
-> proceeding. If you ever find that you need any of the instructions deleted by
-> this script, you will need to re-clone this repository from scratch.
+> Running this command will delete all example chapters, all LaTeX auxiliary
+> files, this README.md file, empty out `backmatter/refs.bib`, and remove the
+> `strip-template` command itself (so it
+> cannot accidentally be run a second time, e.g. after you've written your own
+> content into `main.tex`). Ensure you have read the documentation and examples
+> provided in the template before proceeding. If you ever find that you need
+> any of the instructions deleted by this command, you will need to restore this
+> repository to its previous state or re-clone it entirely
