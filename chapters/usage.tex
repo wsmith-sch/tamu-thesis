@@ -2,34 +2,34 @@
 \section{Goal of This Template}
 This \LaTeX\ template is designed to satisfy the major formatting requirements of the Texas A\&M Graduate and Professional School.
 Nevertheless, you are encouraged to review the official guidelines, which can be found on the
-\href{https://grad.tamu.edu/academics/academic-success-resources/thesis-dissertation-services}{Thesis and Dissertation Services webpage}.
+\href{https://grad.tamu.edu/degree-completion/thesis-and-dissertation/writing-tools/index.html}{TDS Writing Your Document website}.
 Many common formatting tasks are handled for you \textit{automatically}.
 For example, entering your information in \texttt{preliminary/title-page.tex} will generate a correctly formatted title page, and using the \texttt{\backslash chapter} command will place your chapter title in all uppercase letters at the top of the page while also inserting a properly formatted entry into the Table of Contents.
 Spacing and font size are likewise defined by the template.
-Formatting options that are not explicitly dictated by the Graduate and Professional School (\textit{e.g.}, font choice, section depth, italicizing subheadings) may be modified at your discretion; see \autoref{sec:customize} for a full list of option.
+Formatting options that are not explicitly dictated by the Graduate and Professional School (\textit{e.g.}, font choice, section depth, italicizing subheadings) may be modified at your discretion; see \autoref{sec:customize} for a full list of options.
 
 A second major goal of this template is to help ensure that your thesis or dissertation meets the Web Content Accessibility Guidelines (WCAG) 2.1 Level~AA standards.
 With this template (and the \textit{latest} version of \LaTeX), most of the hard work is already done; your main task is simply to follow the rules in the following sections to ensure that all figures and tables are accessible.
-Beyond that, the main challenge you may encounter is that some commonly-used packages in \LaTeX\ are currently incompatible with PDF tagging.
-As of May 2026, notable examples include \texttt{float}, \texttt{algorithm}, \texttt{algorithm2e}, \texttt{caption}, \texttt{footnote}, and \texttt{tikz-cd}.
+Beyond that, the main challenge you may encounter is that some commonly used packages in \LaTeX\ are currently incompatible with PDF tagging.
+As of October 2026, notable examples include \texttt{float}, \texttt{algorithm}, \texttt{algorithm2e}, \texttt{caption}, \texttt{footnote}, and \texttt{tikz-cd}.
 A comprehensive list of compatible and incompatible packages can be found in this
 \href{https://latex3.github.io/tagging-project/tagging-status/}{searchable table} from the \LaTeX\ Tagged PDF Project.
 
 The most authoritative and helpful information on accessible PDF generation in \LaTeX\ is provided by the
 \href{https://latex3.github.io/tagging-project/}{\LaTeX\ Tagged PDF Project}.
-These features are all in active development and the \LaTeX\ team has made rapid development in the past year.
-As such, much of the information that you gather online or with the aid of an LLM, such as ChatGPT, will be out-of-date (or, in the latter case, outright fabricated); therefore, you are encouraged to read the documentation directly.
+These features are all in active development and the \LaTeX\ team has made rapid progress in the past year.
+As such, much of the information that you gather online or with the aid of an LLM, such as ChatGPT, will be out of date (or, in the latter case, outright fabricated); therefore, you are encouraged to read the documentation directly.
 
 \section{Navigating This Template}
 The preamble for this document is located in \texttt{preamble.tex}.
 This is where you should load any packages that you need for your thesis and where you may toggle discretionary formatting options.
 Make sure that any packages you add are compatible with tagging.
-This can be done automatically by uncommenting the \texttt{check-tagging-status} from the \texttt{Document-Metadata\{\}} and then checking the end of \texttt{main.log}.
+This can be done automatically by uncommenting the \texttt{check-tagging-status} key in \texttt{\backslash DocumentMetadata\{\}} and then checking the end of \texttt{main.log}.
 Alternatively, you may check the \href{https://latex3.github.io/tagging-project/tagging-status/}{list of compatible and incompatible packages}.
 More importantly, the preamble sets up document encoding and metadata, and it loads the document class \texttt{tamuthesis}, which contains all of the formatting and accessibility settings that make this template comply with the Texas A\&M Graduate and Professional School Thesis and Dissertation Guidelines.
 Modifying, deleting, or omitting this class may result in a PDF that fails to meet these requirements.
 
-You should fill in the files found in the \texttt{preliminary} directory, which constitute the front matter (title page, abstract, dedications, etc) of your thesis.
+You should fill in the files found in the \texttt{preliminary} directory, which constitute the front matter (title page, abstract, dedications, etc.) of your thesis.
 Some of these chapters are optional and may be removed at your discretion.
 In \texttt{title-page.tex}, enter your name, thesis title (limit to 240 characters), and other details; the file will automatically generate a correctly formatted title page and document metadata by invoking the command \texttt{\backslash maketitlepage}.
 After you have completed the preliminary pages, the command \texttt{\backslash makecontents} automatically generates the Table of Contents, List of Figures, and List of Tables according to the university formatting rules and your preamble options; this line should not be removed.
@@ -42,10 +42,10 @@ The option \texttt{<name>} determines how this section is titled in both the doc
 More information on building your bibliography can be found in \autoref{ch:make-bib}.
 
 \section{PDF Accessibility Checkers}\label{sec:checkers}
-As of May 2026, ISO 14289-2 (PDF/UA-2) is considered the ``gold standard'' for PDF accessibility, according to \href{https://pdfa.org/iso-14289-2-pdf-ua-2-the-gold-standard-for-accessibility-in-pdf-2-0-has-arrived/}{PDF Association website}, which also links to several \href{https://pdfa.org/accessible-math-in-pdf-finally} {PDF accessibility checking tools}. If you wish to validate accessibility tagging in your thesis or dissertation, \href{https://pdf4wcag.com/}{PDF4WCAG} is an easy option. From this website, select ``Try validator'', choose ``PDF/UA-2'', and upload your PDF.
+As of October 2026, ISO 14289-2 (PDF/UA-2) is considered the ``gold standard'' for PDF accessibility, according to the \href{https://pdfa.org/iso-14289-2-pdf-ua-2-the-gold-standard-for-accessibility-in-pdf-2-0-has-arrived/}{PDF Association website}, which also links to several \href{https://pdfa.org/accessible-math-in-pdf-finally} {PDF accessibility checking tools}. If you wish to validate accessibility tagging in your thesis or dissertation, \href{https://pdf4wcag.com/}{PDF4WCAG} is an easy option. From this website, select ``Try validator,'' choose ``PDF/UA-2,'' and upload your PDF.
 
-You might also try \href{https://demo.verapdf.org}{VeraPDF}, another free online validation tool.
-As of May 2026, this template passed both of these PDF checkers. Additionally, \href{https://ngpdf.com/}{ngPDF} can convert your tagged PDF to HTML, which can be helpful for visual inspection of the document structure.
+You might also try \href{https://demo.verapdf.org}{veraPDF}, another free online validation tool.
+As of October 2026, this template passed both of these PDF checkers. Additionally, \href{https://ngpdf.com/}{ngPDF} can convert your tagged PDF to HTML, which can be helpful for visual inspection of the document structure.
 
 \section{Custom Formatting Options and Ethos}\label{sec:customize}
 This template strictly enforces all formatting requirements mandated by Texas A\&M University.
@@ -64,25 +64,22 @@ The following keys are available:
   \item \texttt{depth}: Sets depth of section numbering; see \autoref{ch:headings} (default: 2).
   \item \texttt{urlcolor}: Sets the display color for clickable URLs (default: blue).
   \item \texttt{citecolor}: Sets the display color for citation links (default: black).
-  \item \texttt{printmode}: Disables all link coloring, overriding previous options (default: false)
+  \item \texttt{printmode}: Disables all link coloring, overriding previous options (default: false).
 \end{itemize}
 This template also uses the \texttt{fontspec} package, allowing the user to use Unicode encoding and OpenType fonts.
 The font may be changed inside the preamble by using the command \verb|\setmainfont{}|.
-It also uses \texttt{unicode-math} which is a similar package for mathematical expressions: the math font may be set using \verb|\setmathfont{}|.
+It also uses \texttt{unicode-math}, which is a similar package for mathematical expressions: the math font may be set using \verb|\setmathfont{}|.
 For help selecting a font, the user is encouraged to browse the
-\href{https://www.tug.org/FontCatalogue/opentypefonts.html}{ OpenType Font Catalog}
-, examine
-\href{https://tex.stackexchange.com/a/425099/433960}{these combinations of math and text fonts}
-, and peruse this
-\href{https://fred-wang.github.io/MathFonts/}{interactive website of math fonts}
-.
+\href{https://www.tug.org/FontCatalogue/opentypefonts.html}{OpenType Font Catalog}, examine
+\href{https://tex.stackexchange.com/a/425099/433960}{these combinations of math and text fonts}, and peruse this
+\href{https://fred-wang.github.io/MathFonts/}{interactive website of math fonts}.
 
-Finally, the formatting of the Bibliography and citations is also at the users discretion: more information about that can be found in \autoref{ch:make-bib}.
+Finally, the formatting of the Bibliography and citations is also at the user's discretion: more information about that can be found in \autoref{ch:make-bib}.
 
 \section{Compiling This Document Locally}
-This document will compile without issue on Overleaf, which is set to rolling release of \texttt{TexLive}.
+This document will compile without issue on Overleaf with the \TeX\ Live version set to 2026.
 If you intend to compile it on your own device, note that you will need to do so using \texttt{lualatex}.
-This template has been tested using \texttt{LuaHBTeX, Version 1.24.0}, which is included in \texttt{TeX Live 2026}, released on March 1, 2026.
-Please ensure that your local distribution is \textit{at least} up to date with \texttt{lualatex 2025.10.27}.
-You may also need to install \texttt{biber}, which is used by default as the bibliography backend in place of \texttt{BibTeX}, but you can change this by all means.
+This template has been tested using \texttt{LuaHBTeX, Version 1.24.0}, which is included in \texttt{TeX Live 2026}.
+Please ensure that your local distribution is \textit{at least} up to date with the June 2026 release of \LaTeX; the first lines of your log file should show \texttt{LaTeX2e <2026-06-01>} or later.
+You may also need to install \texttt{biber}, which is used by default as the bibliography backend in place of \texttt{BibTeX}, but you can change this if you wish.
 Finally, if you choose to use one of the example fonts specified in the preamble, you will need to ensure that they are installed on your system.

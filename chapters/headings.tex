@@ -1,6 +1,6 @@
 \chapter{Headings and Section Formatting}\label{ch:headings}
 \section{Example Section (Level 1 Subheading)}
-Heading and subheadings are essential for organizing and navigating large documents.
+Headings and subheadings are essential for organizing and navigating large documents.
 This template takes care to ensure that these headings are automatically formatted (both in-line and in the Table of Contents) according to the specifications of the Texas A\&M Graduate and Professional School.
 As a user of this template, the only thing you should bear in mind is that your subsections should be \textit{properly nested}.
 That is, a \texttt{section} should only go under a \texttt{chapter}, a \texttt{subsection} under a \texttt{section}, and so on.
@@ -9,11 +9,11 @@ For example, writing:
   \chapter{Some Chapter}
   \subsection{Some Subsection}
 \end{verbatim}
-is improper since there is no \texttt{section} nested between the level 0 and level 2 subheadings.
+is improper since there is no \texttt{section} nested between the level-0 and level-2 headings.
 
 \subsection{Example Subsection}
-This is an example of a level-2 subheading, \textit{i.e.} a subsection.
-Your thesis is required to include all level 1 subheadings in the Table of Contents; however, there is no mandatory maximum section depth.
+This is an example of a level-2 subheading, \textit{i.e.}, a subsection.
+Your thesis is required to include all level-1 subheadings in the Table of Contents; however, there is no mandatory maximum section depth.
 The section depth in this document can be set using the \texttt{depth} option in \verb|\setupformat{}|.
 For instance, typing \verb|\setupformat{depth = 1}| removes this subsection and all others from the Table of Contents.
 The default value is $2$.
@@ -21,7 +21,7 @@ The only other rule in this regard is that the section depth must be tabulated \
 If you use the standard section commands (\verb|\section{}| \textit{et al.}), then this template enforces consistency automatically.
 
 \subsubsection{Example Subsubsection}
-This is an example of a level-3 subheading, \textit{i.e.} a subsubsection.
+This is an example of a level-3 subheading, \textit{i.e.}, a subsubsection.
 By default, this template does not include subheadings of this depth or lower in the Table of Contents.
-As a formatting rule, subheadings are numbered \textit{if and only if} they appear in the Table of Contents; thus, this subsubsection and all others will not be numbered and should not be referenced using \verb|\autoref| or the likes.
+As a formatting rule, subheadings are numbered \textit{if and only if} they appear in the Table of Contents; thus, this subsubsection and all others will not be numbered and should not be referenced using \verb|\autoref| or the like.
 This template does not allow you to number and include subheadings of depth 4 or more.

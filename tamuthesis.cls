@@ -1,5 +1,5 @@
-\NeedsTeXFormat{LaTeX2e}[2025-11-01]
-\ProvidesClass{tamuthesis}[2026/07/17 TAMU thesis v1.1]
+\NeedsTeXFormat{LaTeX2e}[2026-06-01]
+\ProvidesClass{tamuthesis}[2026/10/03 TAMU thesis v1.2.0]
 
 \LoadClass[12pt]{report}
 
@@ -22,11 +22,11 @@
   italicsubsubsections.if = @tamuthesis@italicsubsubsections,
   depth.code = {
     \ifnum#1<1
-    \PackageWarning{tamuthesis}{TOC depth must be at least 1 per TAMU guidelines. Setting to 1.}
+    \ClassWarning{tamuthesis}{TOC depth must be at least 1 per TAMU guidelines. Setting to 1.}
     \renewcommand{\tamuthesis@depth}{1}
     \else
     \ifnum#1>3
-    \PackageWarning{tamuthesis}{TOC depth of #1 is a tad excessive. Setting to 3.}
+    \ClassWarning{tamuthesis}{TOC depth of #1 is a tad excessive. Setting to 3.}
     \renewcommand{\tamuthesis@depth}{3}
     \else
     \renewcommand{\tamuthesis@depth}{#1}
@@ -64,11 +64,8 @@
 \newcommand{\setupformat}[1]{\SetKeys[tamuthesis]{#1}}
 
 % debugging: print latex lab info to log
-% (absent on older texlive, hence the guard)
 \typeout{latex lab version : \ltlabsecdate\space v\ltlabsecversion}
-\@ifundefined{ltlabsecIIversion}
-{\typeout{latex lab sec-template : not present}}
-{\typeout{latex lab sec-template : \ltlabsecIIdate\space v\ltlabsecIIversion}}
+\typeout{latex lab sec-template : \ltlabsecIIdate\space v\ltlabsecIIversion}
 
 % Required for accessibility
 \RequirePackage{unicode-math}
@@ -80,7 +77,8 @@
 \RequirePackage[doublespacing]{setspace}
 \RequirePackage{longtable}
 \RequirePackage[bottom]{footmisc} % force footnotes to bottom of page
-\RequirePackage[titletoc]{appendix} % used to make appendices look right in the ToC
+\RequirePackage{appendix}
+\RequirePackage{etoolbox} % \ifdefempty on the title page
 
 % not required but nice
 \RequirePackage{microtype} % good kerning etc
@@ -114,10 +112,7 @@
 }
 
 % Force logical order of floats
-% https://tex.stackexchange.com/questions/755511/why-does-latex-put-the-pdf-tags-for-floats-at-the-end-of-the-document
-\ExplSyntaxOn
-\bool_gset_false:N\g__tag_float_sect_bool
-\ExplSyntaxOff
+\tagpdfsetup{float/here}
 
 % set TOC depth: must be at least 1 per the Grad school
 \AddToHook{begindocument}{
@@ -127,195 +122,106 @@
 
 % Format titles for subheadings:
 
-% Newer latex-lab formats chapters through a tagged "heading" template instead of
-% \@makechapterhead, which is much more convenient
+% latex-lab formats headings through tagged "heading" templates, which we edit here
 %
 % Its keys change between releases, so we only restyle for sec-template versions
 % we have checked; add a line here after verifying a new one
-%
-% If the user has an older download of texlive, we will provide the old code as a fallback
 \@namedef{tamuthesis@secII@0.9g}{}
-\IfInstanceExistsTF{heading}{chapter}
-{% new latex-lab
-  \@ifundefined{tamuthesis@secII@\ltlabsecIIversion}
-  {% unverified version: warn and keep latex-lab's default, rather than risk errors
-    \ClassWarning{tamuthesis}{%
-      Chapter formatting unverified for latex-lab sec-template
-    \ltlabsecIIversion; using default style. Update tamuthesis.cls}%
-  }
-  {% "hang" keeps the number and title on one centered line
-    % after-*-vspace pull the title to the top of the page
-    % prefix (\@chapapp) is cleared for a bare "1."
-    \DeclareInstance{headformat}{tamuchapter}{hang}{
-      , heading-indent   = 0pt
-      , number-title-sep = 1em
-      , title-format     = \MakeUppercase{#1}
-    }
-    \EditInstance{heading}{chapter}{
-      , placement            = top
-      , after-penalty-vspace = 0pt
-      , after-vspace         = 20pt
-      , prefix               = \NoValue
-      , heading-decls        = \centering \normalfont \normalsize
-      \if@tamuthesis@boldheadings \bfseries \fi
-      , number-decls         = \normalsize
-      , title-decls          = \normalsize
-      , headformat-instance  = tamuchapter
-      , number-format        = \MakeUppercase{\thechapter.}
-    }
-  }
+\@ifundefined{tamuthesis@secII@\ltlabsecIIversion}
+{% unverified version: warn and keep latex-lab's default, rather than risk errors
+  \ClassWarning{tamuthesis}{%
+    Heading formatting unverified for latex-lab sec-template
+  \ltlabsecIIversion; using default style. Update tamuthesis.cls}%
 }
-{% old code
-  %
-  % TODO: at some point (stable release), we can just deprecate this branch
-  \renewcommand{\@makechapterhead}[1]{
-    \vspace*{0pt} % space before title
-    {\parindent \z@
-      \if@tamuthesis@boldheadings\bfseries\fi\centering\normalsize
-      \ifnum \c@secnumdepth >\m@ne
-      \MakeUppercase{\thechapter.} \hspace{1em}%
-      \fi
-      \interlinepenalty\@M
-      \MakeUppercase{#1}\par\nobreak
-      \vskip 20pt % space after title
-    }
+{% "hang" keeps the number and title on one centered line
+  % after-*-vspace pull the title to the top of the page
+  % prefix (\@chapapp) is cleared for a bare "1."
+  \DeclareInstance{headformat}{tamuchapter}{hang}{
+    , heading-indent   = 0pt
+    , number-title-sep = 1em
+    , title-format     = \MakeUppercase{#1}
   }
-  % ditto for "starred" (schapter); what a horrible convention
-  \renewcommand{\@makeschapterhead}[1]{
-    \vspace*{0pt}
-    {\parindent \z@
-      \if@tamuthesis@boldheadings\bfseries\fi\centering\normalsize
-      \interlinepenalty\@M
-      \MakeUppercase{#1}\par\nobreak
-      \vskip 20pt
-    }
+  \EditInstance{heading}{chapter}{
+    , placement            = top
+    , after-penalty-vspace = 0pt
+    , after-vspace         = 20pt
+    , prefix               = \NoValue
+    , heading-decls        = \centering \normalfont \normalsize
+    \if@tamuthesis@boldheadings \bfseries \fi
+    , number-decls         = \normalsize
+    , title-decls          = \normalsize
+    , headformat-instance  = tamuchapter
+    , number-format        = \MakeUppercase{\thechapter.}
+    , contents-extra       = % no space between chapters in the LoF & LoT
   }
-}
-
-% for sections and lower, this applies to the normal and *'d alike:
-\renewcommand{\section}{%
-  \@startsection{section}%
-  {1} % level
-  {0pt} % indent
-  {-2.5ex plus -1ex minus -.2ex} % beforeskip (compact-ish)
-  {1.5ex plus .2ex} % afterskip
-  {%
-    \if@tamuthesis@italicsections\itshape\fi
-    \if@tamuthesis@boldsections\bfseries\fi
-    \if@tamuthesis@centersections\centering\fi
-  }%
-}
-
-\renewcommand{\subsection}{%
-  \@startsection{subsection}%
-  {2}%
-  {0pt}%
-  {-2ex plus -1ex minus -.2ex}%
-  {1ex plus .2ex}%
-  {%
-    \if@tamuthesis@italicsubsections\itshape\fi
-    \if@tamuthesis@boldsubsections\bfseries\fi
-    \if@tamuthesis@centersections\centering\fi
-  }%
-}
-
-\renewcommand{\subsubsection}{%
-  \@startsection{subsubsection}%
-  {3}%
-  {0pt}%
-  {-1.5ex plus -1ex minus -.2ex}%
-  {1ex plus .2ex}%
-  {%
-    \if@tamuthesis@italicsubsubsections\itshape\fi
-    \if@tamuthesis@boldsubsubsections\bfseries\fi
-    \if@tamuthesis@centersections\centering\fi
-  }%
+  % for sections and lower, this applies to the normal and *'d alike
+  \EditInstance{heading}{section}{
+    , before-vspace = 2.5ex plus 1ex minus .2ex
+    , after-vspace  = 1.5ex plus .2ex
+    , heading-decls = \normalfont
+    \if@tamuthesis@italicsections \itshape \fi
+    \if@tamuthesis@boldsections \bfseries \fi
+    \if@tamuthesis@centersections \centering \fi
+  }
+  \EditInstance{heading}{subsection}{
+    , before-vspace = 2ex plus 1ex minus .2ex
+    , after-vspace  = 1ex plus .2ex
+    , heading-decls = \normalfont
+    \if@tamuthesis@italicsubsections \itshape \fi
+    \if@tamuthesis@boldsubsections \bfseries \fi
+    \if@tamuthesis@centersections \centering \fi
+  }
+  \EditInstance{heading}{subsubsection}{
+    , before-vspace = 1.5ex plus 1ex minus .2ex
+    , after-vspace  = 1ex plus .2ex
+    , heading-decls = \normalfont
+    \if@tamuthesis@italicsubsubsections \itshape \fi
+    \if@tamuthesis@boldsubsubsections \bfseries \fi
+    \if@tamuthesis@centersections \centering \fi
+  }
 }
 
 %% Format TOC
 
-% Source - https://tex.stackexchange.com/a/759618
-
-% add the word "Page"
-\AddToHook{begindocument/end}
-{\addtocontents{toc}
-  {\unexpanded{\SuspendTagging{}
-      \vspace*{-1.5em}
-      \hfill
-      \vspace*{-0.5em}
-\makebox[\UseName{@pnumwidth}][c]{Page}\par\bigskip\ResumeTagging{}}}}
-
-\AddToHook{begindocument/end}
-{\addtocontents{lof}
-  {\unexpanded{\SuspendTagging{}
-      \vspace*{-1.5em}
-      \hfill
-      \vspace*{0.5em}
-\makebox[\UseName{@pnumwidth}][c]{Page}\par\bigskip\ResumeTagging{}}}}
-
-\AddToHook{begindocument/end}
-{\addtocontents{lot}
-  {\unexpanded{\SuspendTagging{}
-      \vspace*{-1.5em}
-      \hfill
-      \vspace*{0.5em}
-\makebox[\UseName{@pnumwidth}][c]{Page}\par\bigskip\ResumeTagging{}}}}
-
-\ExpandArgs{c}\def{@dotsep}{2}
+\renewcommand{\@dotsep}{2}
 \AddToHookWithArguments{contentsline/text/after}{%
   \ifnum#1=0%
-  \unexpanded{\tagmcbegin{artifact=notype} \dotfill \tagmcend}%
+  \tagmcbegin{artifact=notype} \dotfill \tagmcend%
   \vspace{0.5em}%
   \fi%
 }
 
 % to make a . after the chapter title in the ToC
 \AddToHook{cmd/l@chapter/before}{
-  \let\oldnumberline\numberline
-  \renewcommand{\numberline}[1]{\oldnumberline{#1.}}
+  \let\tamuthesis@numberline\numberline
+  \renewcommand{\numberline}[1]{\tamuthesis@numberline{#1.}}
 }
 \AddToHook{cmd/l@chapter/after}{
-  \let\numberline\oldnumberline
+  \let\numberline\tamuthesis@numberline
 }
 
-% remove space between chapters in LoF & LoT
-% Use a hook to target the start of the List of Figures
-\AddToHook{cmd/listoffigures/before}{%
-  \let\oldaddvspace\addvspace
-  \renewcommand{\addvspace}[1]{} % Kill the vertical space command
-}
-
-\AddToHook{cmd/listoftables/before}{%
-  \let\oldaddvspace\addvspace
-  \renewcommand{\addvspace}[1]{}
-}
-
-% restore it after so it doesn't break the rest of the document
-\AddToHook{cmd/listoffigures/after}{\let\addvspace\oldaddvspace}
-\AddToHook{cmd/listoftables/after}{\let\addvspace\oldaddvspace}
-
-\ExpandArgs{c}\def{contentsname}{Table of Contents}
+\renewcommand{\contentsname}{Table of Contents}
 
 % the commented out lines here make the ToC be formatted consistently with the chapter/section titles.
 % we were told that the ToC should always appear without italics, etc, so we commented it out (weird rule; if it ever changes, just put these lines back in)
 % TODO: would be nice to force TitleCase on the level 1+ subheadings but there's a bug methinks
-\ExpandArgs{c}\def{contentsline@text@0@format}{
+\@namedef{contentsline@text@0@format}{
   \mdseries % <- it is BF by default; negates our toggle
   %\ifdefined\BoldHeadings\bfseries\fi\centering
   \MakeUppercase
 }
 
-\ExpandArgs{c}\def{contentsline@text@1@format}{
+\@namedef{contentsline@text@1@format}{
   %\ifdefined\ItalicSections\itshape\fi
   %\ifdefined\BoldSections\bfseries\fi
 }
 
-\ExpandArgs{c}\def{contentsline@text@2@format}{
+\@namedef{contentsline@text@2@format}{
   %\ifdefined\ItalicSubSections\itshape\fi
   %\ifdefined\BoldSubSections\bfseries\fi
 }
 
-\ExpandArgs{c}\def{contentsline@text@3@format}{
+\@namedef{contentsline@text@3@format}{
   %\ifdefined\ItalicSubsubsections\itshape\fi
   %\ifdefined\BoldSubsubsections\bfseries\fi
 }
@@ -333,6 +239,7 @@
 % this makes the correctly formatted title page & sets up the hyprref
 % it must necessary come after they define the title, their name, etc
 \newcommand{\maketitlepage}{
+  \pagenumbering{roman}
   \hypersetup{
     pdftitle={\manuscripttitle},
     pdfauthor={\fullname},
@@ -351,7 +258,7 @@
     \begin{center}
       \begin{doublespace}
         { \if@tamuthesis@boldheadings\bfseries\fi
-          \MakeUppercase{  \manuscripttitle}
+          \MakeUppercase{\manuscripttitle}
         }
       \end{doublespace}
       \vspace{4em}
@@ -376,9 +283,6 @@
       \par
     \end{center}
     \vspace{2em}
-    \begin{doublespace}
-
-    \end{doublespace}
 
     \begin{singlespace}
       \tagpdfsetup{table/tagging=false}
@@ -401,7 +305,7 @@
     \vspace{3em}
 
     \begin{center}
-      \gradmonth \hspace{2pt} \gradyear
+      \gradmonth\ \gradyear
 
       \vspace{3em}
 
@@ -414,102 +318,68 @@
   \newpage
 }
 
+% ToC, LoF, and LoT pages: a chapter-style heading listed in the ToC, the word "Page", then the list
+% #3 is extra space below "Page"
+% "Page" header adapted from https://tex.stackexchange.com/a/759618
+\newcommand{\tamuthesis@contentspage}[3]{
+  \chapter*{#2}
+  \addcontentsline{toc}{chapter}{#2}
+  \begin{singlespace}
+    \SuspendTagging{tamuthesis}
+    \vspace*{16.5pt}
+    \hfill\makebox[\@pnumwidth][c]{Page}\par
+    \vspace{#3}\bigskip
+    \ResumeTagging{tamuthesis}
+    \@starttoc{#1}
+  \end{singlespace}
+  \newpage
+}
+
 % this command makes the ToC, LoF, and LoT
 \newcommand{\makecontents}{
-  % we go through all this trouble so that the titles are formatted like a chapter
-  % specifically, where they are located
-  % if that doesn't matter, we could just but \tableofcontents etc
-  \chapter*{Table of Contents}
-  \addcontentsline{toc}{chapter}{Table of Contents}
-  \begin{singlespace}
-    \renewcommand\contentsname{\normalfont} {}
-
-    \begingroup
-    \let\clearpage\relax
-    \let\cleardoublepage\relax
-    \tableofcontents
-    \endgroup
-
-  \end{singlespace}
-
-  \newpage
-
+  \tamuthesis@contentspage{toc}{\contentsname}{-0.5em}
   % to space out entries in the LoF/LoT
   \AddToHookWithArguments{contentsline/text/after}{ \vspace{1em} }
-
-  \chapter*{List of Figures}
-  \addcontentsline{toc}{chapter}{List of Figures}
-
-  \begin{singlespace}
-    \renewcommand{\listfigurename}{}
-
-    \begingroup
-    \let\clearpage\relax
-    \let\cleardoublepage\relax
-    \listoffigures
-    \endgroup
-
-  \end{singlespace}
-  \newpage
-
-  \chapter*{List of Tables}
-  \addcontentsline{toc}{chapter}{List of Tables}
-
-  \begin{singlespace}
-    \renewcommand{\listtablename}{}
-
-    \begingroup
-    \let\clearpage\relax
-    \let\cleardoublepage\relax
-    \listoftables
-    \endgroup
-
-  \end{singlespace}
-  \newpage
+  \tamuthesis@contentspage{lof}{\listfigurename}{0.5em}
+  \tamuthesis@contentspage{lot}{\listtablename}{0.5em}
 }
 
 % FORMATTING THE APPENDIX
-% we want it to say "APPENDIX" before the Chapter heading (but not before sections etc)
-% this is handled in the ToC using the [titletoc] option of the appendix package, so we turn it off in the ToC to avoid printing this twice
-% for some reason, the [title] option is not working, so we manually inject it before we print the chapter title then turn this off subsequently
+% we want it to say "APPENDIX" before the Chapter heading, in the ToC, and in \ref's (but not before sections etc)
 \newif\if@inappendixhead
 \@inappendixheadfalse
 
+\ExplSyntaxOn
+\cs_new:Npn \tamuthesis@appendixprefix { \text_uppercase:n { \appendixname } }
+\ExplSyntaxOff
+
 \AddToHook{env/appendices/begin}{
-  \AddToHook{cmd/chapter/before}{
-    \@inappendixheadtrue
-    \renewcommand{\thechapter}{APPENDIX~\Alph{chapter}}
-  }
-  % Immediately revert after the heading is drawn
-  \AddToHook{cmd/chapter/after}{
-    \renewcommand{\thechapter}{\Alph{chapter}}
-    \@inappendixheadfalse
-  }
+  \IfInstanceExistsT{headformat}{tamuchapter}
+  {\EditInstance{heading}{chapter}{prefix = \tamuthesis@appendixprefix}}
+  \renewcommand{\p@chapter}{\tamuthesis@appendixprefix~}
+  \AddToHook{cmd/chapter/before}{\@inappendixheadtrue}
+  \AddToHook{cmd/chapter/after}{\@inappendixheadfalse}
 }
 
-% Now we make it to where ToC doesn't see the injection of "APPENDIX" before the chapter title
-% we do this instead of turning off the [titletoc] option since it means we don't have to figure out the spacing ourselves (the appendix package does that for us)
-\let\oldaddcontentsline\addcontentsline
+% (the [titletoc] option of the appendix package no longer does this with latex-lab headings)
+\NewCommandCopy{\tamuthesis@addcontentsline}{\addcontentsline}
 \renewcommand{\addcontentsline}[3]{
   \if@inappendixhead
-  {\renewcommand{\thechapter}{\Alph{chapter}}\oldaddcontentsline{#1}{#2}{#3}}
+  \tamuthesis@addcontentsline{#1}{#2}{\appendixname\space #3}
   \else
-  \oldaddcontentsline{#1}{#2}{#3}
+  \tamuthesis@addcontentsline{#1}{#2}{#3}
   \fi
 }
 
 % command to add the bibliography and correctly format it in the ToC
 \newcommand{\buildbibliography}[1]{
-  \clearpage
-  \MakeLinkTarget[section]{}
-  \addcontentsline{toc}{chapter}{#1}
-  \printbibliography[title=#1]
+  \printbibliography[heading=bibintoc, title=#1]
 }
 
 % capitalize chapters when autoref'd
-\def\chapterautorefname{Chapter}
+\renewcommand{\chapterautorefname}{Chapter}
 % use symbol for section
-\def\sectionautorefname{\S}
+\renewcommand{\sectionautorefname}{\S}
 
 % First aid for biblatex c.f. :
 % https://tex.stackexchange.com/questions/761788/documentmetadata-setspace-biblatex-yields-patching-footnotes-failed
