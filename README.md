@@ -3,7 +3,7 @@
 This **LaTeX** template is designed to satisfy the major formatting requirements
 for a thesis or dissertation as specified by the Texas A&M Graduate and
 Professional School, which can be found on the
-[Thesis and Dissertation Services webpage](https://grad.tamu.edu/academics/academic-success-resources/thesis-dissertation-services).
+[TDS Writing Your Document website](https://grad.tamu.edu/degree-completion/thesis-and-dissertation/writing-tools/index.html).
 
 In addition, this template helps ensure that your thesis or dissertation
 meets the Web Content Accessibility Guidelines (WCAG) 2.1 Level AA standards.
@@ -20,8 +20,8 @@ remarks about digital accessibility in **LaTeX**.
 ## Local Compilation
 
 If you intend to compile the document on your own device, note that you must use
-`lualatex`. This template has been tested using `LuaHBTeX, Version 1.24.0`,
-which is included in the March 1 release of
+`lualatex`. This template has been tested using `LuaHBTeX, Version 1.24.0`
+and the 2026-06-01 release of LaTeX, both included in an up-to-date
 [TeX Live 2026](https://tug.org/texlive/).
 If you do not already have a recent TeX Live installation, you are *strongly*
 recommended to install one using the install script provided by the TeX Users
