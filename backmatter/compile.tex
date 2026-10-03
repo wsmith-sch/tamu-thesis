@@ -1,13 +1,13 @@
 \chapter{Tips for Compiling Large Documents}\label{appx:compile-time}
-\section{Compiling Chapters As Needed}
+\section{Compiling Chapters as Needed}
 If you \verb|\include{}| your chapters, then you may speed up compilation considerably by using the \verb|\includeonly{}| command in your preamble.
 Suppose you are working on some chapter which is sourced in the file \verb|chapters/file.tex|; then, putting the line \verb|\includeonly{chapters/file}| in the preamble of your document will tell \LaTeX\ to compile that chapter in isolation.
 You are encouraged to read this \href{https://tex.stackexchange.com/questions/246/when-should-i-use-input-vs-include}{Stack Exchange post} about the use of \verb|\include|, \verb|\input|, and \verb|\includeonly|.
 
 \section{Externalizing Graphics}
 If you have a large number of \texttt{tikz} graphics, it is a good idea to \textit{externalize} these images so that they are not compiled every time you recompile your document.
-There are a number of ways to do this, the most straightforward being to compile the figures somewhere else (\textit{e.g.}, in standalone \texttt{.tex} file found in your \verb|figs/| directory) and then to include the once-compiled graphics in your thesis using the \verb|\includegraphics| command.
-If you are working on Overleaf, you are recommended to look into the  \href{https://tikz.dev/library-external}{external TikZ library}, which handles this process automatically.
+There are a number of ways to do this, the most straightforward being to compile the figures somewhere else (\textit{e.g.}, in a standalone \texttt{.tex} file found in your \verb|figs/| directory) and then to include the once-compiled graphics in your thesis using the \verb|\includegraphics| command.
+If you are working on Overleaf, you are advised to look into the  \href{https://tikz.dev/library-external}{external TikZ library}, which handles this process automatically.
 Overleaf itself has resources on how to externalize TikZ graphics, which can be found at the \href{https://docs.overleaf.com/troubleshooting-and-support/fixing-and-preventing-compile-timeouts/reducing-the-compile-time-for-diagrams}{Overleaf troubleshooting and support website}.
 
 \section{Other Miscellaneous Tips}

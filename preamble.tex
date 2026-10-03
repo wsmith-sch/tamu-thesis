@@ -1,12 +1,14 @@
 \DocumentMetadata{
-  uncompress,
+  %uncompress,  %<- easier to debug tagging if uncompressed
   lang=en,
   tagging=on,
   %check-tagging-status,  %<- uncheck to see if your packages are compatible
   pdfstandard=UA-2,
   pdfstandard=A-4f,
-  tagging-setup={math/setup={mathml-SE,mathml-AF},
-  extra-modules={verbatim-mo, verbatim-af}}
+  tagging-setup={
+    math/setup={mathml-SE,mathml-AF},
+    extra-modules={verbatim-mo, verbatim-af}
+  }
 }
 
 \documentclass{tamuthesis}
@@ -23,7 +25,17 @@
 
 % Here you can set you font: use whatever is appropriate for your discipline
 \usepackage{fontspec}
-\setmainfont{EB Garamond}
+
+% If using Overleaf's 2026 TeX Live image, you might need to load fonts as below
+% (if working locally, loading via \setmainfont{EB Garamond} is probably fine)
+\setmainfont{EBGaramond}[
+  Extension      = .otf,
+  UprightFont    = *-Regular,
+  ItalicFont     = *-Italic,
+  BoldFont       = *-Bold,
+  BoldItalicFont = *-BoldItalic,
+]
+
 % some other nice examples:
 %\setmainfont{CMU Serif}
 %\setmainfont{Palatino}
@@ -32,6 +44,7 @@
 
 % you can specify a math font too:
 \setmathfont{Garamond Math}[StylisticSet={2,5,9,10}]
+
 % another good one:
 %\setmathfont{Asana Math}
 % omitting \setmathfont{} defaults to a Compt. Modern font, which looks good too

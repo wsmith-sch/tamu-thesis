@@ -13,7 +13,7 @@ If the figure is complex and cannot be adequately described in a short alt-text,
 \section{Providing Alt-Text for Simple Figures}
 
 Documentation on how to generate alt-text for graphics in \LaTeX\ can be found in the \href{https://texdoc.org/serve/latex-lab-graphic/0}{latex-lab-graphic package manual}; however, we will demonstrate some basic examples in this template.
-To include an image and embed with it alternative text, we may use the \verb|\includegraphics{}| command and leverage the \verb|\alt={}| attribute.
+To include an image and embed with it alternative text, we may use the \verb|\includegraphics{}| command and leverage the \verb|alt={}| key.
 This is demonstrated in \autoref{fig:alt-text}, which depicts the code used to generate the image itself, visually identifying where the alt-text should be placed.
 
 \begin{figure}[ht]
@@ -31,14 +31,14 @@ This is demonstrated in \autoref{fig:alt-text}, which depicts the code used to g
 
 \newpage
 
-As of May 2026, packages for \textit{generating} graphics such as \texttt{tikz} and \texttt{pgfplots} are only partially compatible and should be used with caution.
-In general, simple graphics generated using \texttt{tikz} can be used if you provide alt-text as in example \autoref{fig:parabola}.
+As of October 2026, packages for \textit{generating} graphics should be used with caution: \texttt{tikz} is only partially compatible with tagging, and \texttt{pgfplots} is currently incompatible.
+In general, simple graphics generated using \texttt{tikz} can be used if you provide alt-text as in \autoref{fig:parabola}.
 \vspace{3em}
 
 \begin{figure}[h]
   \centering
   \begin{tikzpicture}[
-      alt={A graph of a parabola opening upwards, centered at the origin (0,0)}
+      alt={A parabola opening upward, centered at the origin (0,0).}
     ]
 
     \draw[->] (-2.5,0) -- (2.5,0) node[below] {$x$};
@@ -51,7 +51,7 @@ In general, simple graphics generated using \texttt{tikz} can be used if you pro
   \label{fig:parabola}
 \end{figure}
 
-A considerably more complicated example can be found in \autoref{fig:complicated}--- this example also shows how intricate figures can be \texttt{\backslash input} from a separate file, just like tables.
-Refer to the documentation linked previously if you wish to generate things other than simple figures (\textit{e.g.}, decorations, special characters) using \texttt{tikz}, as these might require further care to tag properly or need to be marked as an artifact.
+A considerably more complicated example can be found in \autoref{fig:complicated}---this example also shows how intricate figures can be \texttt{\backslash input} from a separate file, just like tables.
+Refer to the documentation linked previously if you wish to generate things other than simple figures (\textit{e.g.}, decorations, special characters) using \texttt{tikz}, as these might require further care to tag properly or need to be marked as artifacts.
 
 \input{figs/complicated}
