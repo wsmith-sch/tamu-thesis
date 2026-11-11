@@ -34,6 +34,7 @@
     \fi
   },
   printmode.if    = @tamuthesis@printmode,
+  review.if       = @tamuthesis@review,
   % comment out due to ToC looking ugly
   %linkcolor.store = \tamuthesis@linkcolor,
   citecolor.store = \tamuthesis@citecolor,
@@ -55,6 +56,7 @@
   citecolor = black,
   urlcolor  = blue,
   printmode = false,
+  review    = false,
 }
 
 \ProcessKeyOptions
@@ -66,6 +68,14 @@
 % debugging: print latex lab info to log
 \typeout{latex lab version : \ltlabsecdate\space v\ltlabsecversion}
 \typeout{latex lab sec-template : \ltlabsecIIdate\space v\ltlabsecIIversion}
+
+\AddToHook{begindocument/before}{
+  \if@tamuthesis@review
+  \RequirePackage{lualineno}
+  \RequirePackage{xcolor}
+  \RequirePackage{fancyhdr}
+  \fi
+}
 
 % Required for accessibility
 \RequirePackage{unicode-math}
@@ -107,6 +117,28 @@
     linkcolor  = \tamuthesis@linkcolor,
     citecolor  = \tamuthesis@citecolor,
     urlcolor   = \tamuthesis@urlcolor
+  }
+  \fi
+}
+
+\AddToHook{begindocument}{
+  \if@tamuthesis@review
+  \setlength{\overfullrule}{5pt}
+  \fancypagestyle{plain}{
+    \fancyhf{}
+    \fancyfoot[L]{\footnotesize\color{gray}Draft of \today}
+    \fancyfoot[C]{\thepage}
+    \renewcommand{\headrulewidth}{0pt}
+  }
+  \pagestyle{plain}
+  \newcounter{tamuthesis@lineno}
+  \lualineno{
+    define = {
+      name = tamuthesis
+      toks = {\stepcounter{tamuthesis@lineno}}
+      left = {\footnotesize\color{gray}\arabic{tamuthesis@lineno}\kern1em}
+    }
+    set = tamuthesis
   }
   \fi
 }
