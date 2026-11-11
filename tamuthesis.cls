@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}[2026-06-01]
-\ProvidesClass{tamuthesis}[2026/11/08 TAMU thesis v1.3.0]
+\ProvidesClass{tamuthesis}[2026/11/11 TAMU thesis v1.4.0]
 
 \LoadClass[12pt]{report}
 
@@ -34,6 +34,7 @@
     \fi
   },
   printmode.if    = @tamuthesis@printmode,
+  review.if       = @tamuthesis@review,
   % comment out due to ToC looking ugly
   %linkcolor.store = \tamuthesis@linkcolor,
   citecolor.store = \tamuthesis@citecolor,
@@ -55,6 +56,7 @@
   citecolor = black,
   urlcolor  = blue,
   printmode = false,
+  review    = false,
 }
 
 \ProcessKeyOptions
@@ -66,6 +68,15 @@
 % debugging: print latex lab info to log
 \typeout{latex lab version : \ltlabsecdate\space v\ltlabsecversion}
 \typeout{latex lab sec-template : \ltlabsecIIdate\space v\ltlabsecIIversion}
+
+% line numbers for review copies (lualineno works with tagging; lineno does not)
+% loaded at the end of the preamble, so that \setupformat{review} also works
+\AddToHook{begindocument/before}{
+  \if@tamuthesis@review
+  \RequirePackage{lualineno}
+  \RequirePackage{xcolor}
+  \fi
+}
 
 % Required for accessibility
 \RequirePackage{unicode-math}
@@ -107,6 +118,32 @@
     linkcolor  = \tamuthesis@linkcolor,
     citecolor  = \tamuthesis@citecolor,
     urlcolor   = \tamuthesis@urlcolor
+  }
+  \fi
+}
+
+% review copy: a date stamp in the footer, marks on overfull lines, and line
+% numbers running through the document (as in siamart's review option)
+\AddToHook{begindocument}{
+  \if@tamuthesis@review
+  \setlength{\overfullrule}{5pt}
+  \renewcommand{\ps@plain}{
+    \renewcommand{\@oddhead}{}
+    \renewcommand{\@evenhead}{}
+    \renewcommand{\@oddfoot}{%
+      \rlap{\footnotesize\color{gray}Draft of \today}\hfil\thepage\hfil%
+    }
+    \renewcommand{\@evenfoot}{\@oddfoot}
+  }
+  \pagestyle{plain}
+  \newcounter{tamuthesis@lineno}
+  \lualineno{
+    define = {
+      name = tamuthesis
+      toks = {\stepcounter{tamuthesis@lineno}}
+      left = {\footnotesize\color{gray}\arabic{tamuthesis@lineno}\kern1em}
+    }
+    set = tamuthesis
   }
   \fi
 }
