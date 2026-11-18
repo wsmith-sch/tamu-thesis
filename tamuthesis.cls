@@ -339,8 +339,7 @@
 % #3 is extra space below "Page"
 % "Page" header adapted from https://tex.stackexchange.com/a/759618
 \newcommand{\tamuthesis@contentspage}[3]{
-  \chapter*{#2}
-  \addcontentsline{toc}{chapter}{#2}
+  \chapter[unnumbered=true]{#2}
   \begin{singlespace}
     \SuspendTagging{tamuthesis}
     \vspace*{16.5pt}
