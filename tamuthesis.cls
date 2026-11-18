@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}[2026-06-01]
-\ProvidesClass{tamuthesis}[2026/11/08 TAMU thesis v1.3.0]
+\ProvidesClass{tamuthesis}[2026/11/18 TAMU thesis v1.3.1]
 
 \LoadClass[12pt]{report}
 
