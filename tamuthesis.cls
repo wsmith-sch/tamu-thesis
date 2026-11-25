@@ -383,13 +383,44 @@
   \newpage
 }
 
+\ExplSyntaxOn
+\ior_new:N \g__tamuthesis_list_ior
+\bool_new:N \l__tamuthesis_list_bool
+
+\cs_new_protected:Npn \__tamuthesis_list_if_entries:n #1
+  {
+    \bool_set_false:N \l__tamuthesis_list_bool
+    \ior_open:NnT \g__tamuthesis_list_ior { \c_sys_jobname_str . #1 }
+      {
+        \ior_str_map_inline:Nn \g__tamuthesis_list_ior
+          {
+            \str_if_in:nnT {##1} { \contentsline }
+              {
+                \bool_set_true:N \l__tamuthesis_list_bool
+                \ior_map_break:
+              }
+          }
+        \ior_close:N \g__tamuthesis_list_ior
+      }
+  }
+
+% LoF/LoT page only if the list has entries; otherwise just keep its file up to date
+\cs_new_protected:Npn \tamuthesis@listpage #1#2#3
+  {
+    \__tamuthesis_list_if_entries:n {#1}
+    \bool_if:NTF \l__tamuthesis_list_bool
+      { \tamuthesis@contentspage {#1} {#2} {#3} }
+      { \vbox_set:Nn \l_tmpa_box { \SuspendTagging { tamuthesis } \@starttoc {#1} } }
+  }
+\ExplSyntaxOff
+
 % this command makes the ToC, LoF, and LoT
 \newcommand{\makecontents}{
   \tamuthesis@contentspage{toc}{\contentsname}{-0.5em}
   % to space out entries in the LoF/LoT
   \AddToHookWithArguments{contentsline/text/after}{ \vspace{1em} }
-  \tamuthesis@contentspage{lof}{\listfigurename}{0.5em}
-  \tamuthesis@contentspage{lot}{\listtablename}{0.5em}
+  \tamuthesis@listpage{lof}{\listfigurename}{0.5em}
+  \tamuthesis@listpage{lot}{\listtablename}{0.5em}
 }
 
 % FORMATTING THE APPENDIX
